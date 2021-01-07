@@ -5,16 +5,24 @@ using UnityEngine;
 public class ElevatorPanel : MonoBehaviour
 {
     [SerializeField] private MeshRenderer _elevatorLight;
+    private bool _elevatorEnable = false;
+
+    private void Update()
+    {
+        if (_elevatorEnable)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                _elevatorLight.material.color = Color.green;
+            }
+        }
+    }
 
     void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("Called");
-                _elevatorLight.material.color = Color.green;
-            }
+            _elevatorEnable = true;  
         }
     }
 }
