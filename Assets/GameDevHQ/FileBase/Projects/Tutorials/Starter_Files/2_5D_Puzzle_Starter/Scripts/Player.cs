@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
 
-    // Start is called before the first frame update
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -34,7 +33,6 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLivesDisplay(_lives);
     }
 
-    // Update is called once per frame
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -85,5 +83,10 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+    }
+
+    public int CheckCoins()
+    {
+        return _coins;
     }
 }
