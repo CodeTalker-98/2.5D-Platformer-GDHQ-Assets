@@ -7,6 +7,7 @@ public class ElevatorPanel : MonoBehaviour
     [SerializeField] private int _operationPrice = 8; 
     [SerializeField] private MeshRenderer _elevatorLight;
     private bool _elevatorEnable = false;
+    private bool _elevatorCalled = false;
     private Player _player;
     private Elevator _elevator;
 
@@ -27,8 +28,16 @@ public class ElevatorPanel : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && _player.CheckCoins() >= _operationPrice)
             {
-                _elevatorLight.material.color = Color.green;
-
+                if (_elevatorCalled)
+                {
+                    _elevatorLight.material.color = Color.red;
+                    _elevatorCalled = false;
+                }
+                else
+                {
+                    _elevatorLight.material.color = Color.green;
+                    _elevatorCalled = true;
+                }
                 if (_elevator != null)
                 {
                     _elevator.CallElevator();
