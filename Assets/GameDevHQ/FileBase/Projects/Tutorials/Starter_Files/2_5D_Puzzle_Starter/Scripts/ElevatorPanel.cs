@@ -8,10 +8,12 @@ public class ElevatorPanel : MonoBehaviour
     [SerializeField] private MeshRenderer _elevatorLight;
     private bool _elevatorEnable = false;
     private Player _player;
+    private Elevator _elevator;
 
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _elevator = GameObject.Find("Elevator").GetComponent<Elevator>();
 
         if (_player == null)
         {
@@ -26,6 +28,11 @@ public class ElevatorPanel : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && _player.CheckCoins() >= _operationPrice)
             {
                 _elevatorLight.material.color = Color.green;
+
+                if (_elevator != null)
+                {
+                    _elevator.CallElevator();
+                }
             }
         }
     }
