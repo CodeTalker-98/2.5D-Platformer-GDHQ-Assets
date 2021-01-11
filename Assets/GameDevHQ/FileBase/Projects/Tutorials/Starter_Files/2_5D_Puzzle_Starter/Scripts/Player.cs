@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     [SerializeField]
     private int _lives = 3;
-    private Vector3 _direction, _velocity;
+    private Vector3 _direction, _velocity, _wallSurfaceNormal;
+    private bool _canWallJump = false;
 
     void Start()
     {
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour
 
         if (_controller.isGrounded == true)
         {
+            _canWallJump = false;
             _direction = new Vector3(horizontalInput, 0, 0);
             _velocity = _direction * _speed;
 
@@ -53,10 +55,16 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (_canDoubleJump == true)
+                if (_canDoubleJump == true && !_canWallJump)
                 {
                     _yVelocity += _jumpHeight;
                     _canDoubleJump = false;
+                }
+
+                if (_canWallJump)
+                {
+                    _yVelocity += _jumpHeight;
+                    _velocity = _speed * _wallSurfaceNormal;
                 }
             }
 
@@ -66,6 +74,16 @@ public class Player : MonoBehaviour
         _velocity.y = _yVelocity;
 
         _controller.Move(_velocity * Time.deltaTime);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (!_controller.isGrounded && hit.transform.tag == "Wall")
+        {
+            Debug.DrawRay(hit.point, hit.normal, Color.red);
+            _wallSurfaceNormal = hit.normal;
+            _canWallJump = true;
+        }
     }
 
     public void AddCoins()
