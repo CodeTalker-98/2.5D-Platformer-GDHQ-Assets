@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(hit.transform.tag == "Movable")
+        if(hit.transform.tag == "Moveable")
         {
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
 
